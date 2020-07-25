@@ -45,10 +45,10 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-validation')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	/*compile('com.alibaba:druid-spring-boot-starter:1.1.10')*/
-	compile('org.flywaydb:flyway-core')
+	/*compile('org.flywaydb:flyway-core')*/
 	runtime('mysql:mysql-connector-java')
 	compileOnly('org.springframework.boot:spring-boot-configuration-processor')
-	compileOnly('org.projectlombok:lombok')
+	//compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 
 	// https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter
@@ -61,6 +61,10 @@ dependencies {
 	compile group: 'com.alibaba', name: 'fastjson', version: '1.2.47'
 	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'
 	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
+	annotationProcessor 'org.projectlombok:lombok:1.18.2'
+	compileOnly 'org.projectlombok:lombok:1.18.2'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.2'
+	testCompileOnly 'org.projectlombok:lombok:1.18.2'
 
 
 

@@ -29,9 +29,9 @@ public class Swagger2Config {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("会议API")
-                .description("会议接口说明文档 ")
-                .version("0.0.004")
+                .title("测试API")
+                .description("测试 ")
+                .version("0.0.001")
                 .build();
     }
 }

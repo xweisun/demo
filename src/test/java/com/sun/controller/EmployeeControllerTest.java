@@ -3,9 +3,6 @@ package com.sun.controller;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by sunxw on 2018-08-25 12:16
@@ -13,9 +10,9 @@ import static org.junit.Assert.*;
 public class EmployeeControllerTest {
     Class[] classes = {EmployeeController.class,EmployeeControllerTest.class};
 
-    AnnotationConfigApplicationContext annotationConfig =
+  /*  AnnotationConfigApplicationContext annotationConfig =
             new AnnotationConfigApplicationContext(new Class[]{EmployeeController.class,EmployeeControllerTest.class});
-
+*/
     @Before
     public void setUp() throws Exception {
     }

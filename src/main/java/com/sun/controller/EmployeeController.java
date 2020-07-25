@@ -32,9 +32,9 @@ public class EmployeeController {
     @GetMapping(value = "/demo", produces = "application/json;charset=utf-8")
     public JsonResult getRooms() {
         Employee employee = new Employee();
-        employee.setLastName("too");
+       /* employee.setLastName("too");
         employee.setAge(12);
-        employee.setGender(0);
+        employee.setGender(0);*/
         employeeMapper.insert(employee);
         return ResultUtil.error(200,"test");
     }
@@ -43,9 +43,9 @@ public class EmployeeController {
     @GetMapping(value = "/demo2", produces = "application/json;charset=utf-8")
     public JsonResult getRooms2() {
         Employee employee = new Employee();
-        employee.setLastName("too");
+        /*employee.setLastName("too");
         employee.setAge(12);
-        employee.setGender(0);
+        employee.setGender(0);*/
         Wrapper<Employee> employeeWrapper = new EntityWrapper<Employee>().eq("gender", 0);
 //        List<Employee> employees = employeeMapper.selectList(employeeWrapper);
         List<Employee> employees = employeeMapper.selectemps();
