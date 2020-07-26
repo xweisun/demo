@@ -1,6 +1,7 @@
 package com.sun.controller;
 
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.sun.entity.Employee;
@@ -10,11 +11,13 @@ import com.sun.model.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import javax.sql.DataSource;
+import java.util.*;
 
 /**
  * Created by sunxw on 2018-08-24 11:08
@@ -27,21 +30,37 @@ public class EmployeeController {
     @Autowired
     EmployeeMapper employeeMapper;
 
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
 
     @ApiOperation(value = "测试demo")
     @GetMapping(value = "/demo", produces = "application/json;charset=utf-8")
     public JsonResult getRooms() {
         Employee employee = new Employee();
-       /* employee.setLastName("too");
+        employee.setId(UUID.randomUUID().variant());
+       employee.setLastName("too");
         employee.setAge(12);
-        employee.setGender(0);*/
+        employee.setGender(0);
+        employee.setEmail("qqq.com");
         employeeMapper.insert(employee);
-        return ResultUtil.error(200,"test");
+        List<Map<String, Object>> maps = jdbcTemplate.queryForList("select * from user");
+        Object o = JSON.toJSON(maps);
+        String s = JSON.toJSONString(o);
+        byte[] bytes = JSON.toJSONBytes(o);
+        System.out.println("返回数据："+s);
+        System.out.println("返回数据："+o);
+        System.out.println("byte"+bytes);
+        return ResultUtil.success(Arrays.asList(o,s,bytes));
     }
 
+    @Autowired
+    DataSource dataSource;
     @ApiOperation(value = "测试demo")
     @GetMapping(value = "/demo2", produces = "application/json;charset=utf-8")
     public JsonResult getRooms2() {
+        Class<? extends DataSource> aClass = dataSource.getClass();
+        System.out.println(aClass);
         Employee employee = new Employee();
         /*employee.setLastName("too");
         employee.setAge(12);

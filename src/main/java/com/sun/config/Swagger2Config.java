@@ -21,6 +21,7 @@ public class Swagger2Config {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
+                //.apis(RequestHandlerSelectors.withClassAnnotation(ApiOperation.class))
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 //.apis(RequestHandlerSelectors.basePackage("com.sun.controller"))
                 .paths(PathSelectors.any())

@@ -1,6 +1,7 @@
 package com.sun.config;
 
 
+import com.alibaba.druid.pool.DruidDataSource;
 import com.baomidou.mybatisplus.MybatisConfiguration;
 import com.baomidou.mybatisplus.MybatisXMLLanguageDriver;
 import com.baomidou.mybatisplus.entity.GlobalConfiguration;
@@ -9,8 +10,7 @@ import com.baomidou.mybatisplus.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.plugins.PerformanceInterceptor;
 import com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean;
 import com.baomidou.mybatisplus.spring.boot.starter.MybatisPlusProperties;
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
+import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -20,7 +20,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.ObjectUtils;
-import org.apache.ibatis.plugin.Interceptor;
 import org.springframework.util.StringUtils;
 
 import javax.sql.DataSource;
@@ -38,8 +37,7 @@ public class MybatisPlusConfig {
     @Autowired
     private MybatisPlusProperties properties;
 
-    @Autowired
-    HikariConfig hikariConfig;
+
 
 
 
@@ -67,13 +65,23 @@ public class MybatisPlusConfig {
         return performanceInterceptor;
     }
 
-    @ConfigurationProperties(prefix = "spring.datasource")
+   /* @ConfigurationProperties(prefix = "spring.datasource")
     @Bean
     public HikariConfig hikariConfig() {
         HikariConfig hikariConfig = new HikariConfig();
         //hikariConfig.setDriverClassName("com.mysql.jdbc.Driver");
         return hikariConfig;
-    }
+    }*/
+
+   @Bean
+   @ConfigurationProperties(prefix = "spring.datasource")
+   public DataSource druidDataSource(){
+       DruidDataSource dataSource = new DruidDataSource();
+       return  dataSource;
+   }
+
+   @Autowired
+   DataSource druidDataSource;
     /**
      * 这里全部使用mybatis-autoconfigure 已经自动加载的资源,不手动指定
      *
@@ -81,9 +89,10 @@ public class MybatisPlusConfig {
      */
     @Bean
     public MybatisSqlSessionFactoryBean mybatisSqlSessionFactoryBean() {
-       HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
+       /*HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);*/
+
         MybatisSqlSessionFactoryBean mybatisPlus = new MybatisSqlSessionFactoryBean();
-        mybatisPlus.setDataSource(hikariDataSource);
+        mybatisPlus.setDataSource(druidDataSource);
 
         mybatisPlus.setConfiguration(properties.getConfiguration());
 
