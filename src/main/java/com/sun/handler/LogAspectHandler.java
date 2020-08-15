@@ -3,15 +3,16 @@ package com.sun.handler;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -24,6 +25,11 @@ import java.util.Date;
 @Component
 public class LogAspectHandler {
 
+    @Autowired
+    private HttpServletRequest request;
+    @Autowired
+    private HttpSession session; // 直接注入
+
     private Logger logger  = LoggerFactory.getLogger("LogAspectHandler");
 
     @Pointcut("execution(* com.sun.controller..*.*(..))")
@@ -35,6 +41,8 @@ public class LogAspectHandler {
      */
     @Before("logPointcut()")
     public void beforeLogger(JoinPoint joinPoint){
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
         String targetName = joinPoint.getTarget().getClass().toString();
         String methodName = joinPoint.getSignature().getName();
         Object[] arguments = joinPoint.getArgs();

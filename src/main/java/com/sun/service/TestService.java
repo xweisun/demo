@@ -6,4 +6,6 @@ package com.sun.service;
 
 public interface TestService {
 
+    public void test();
+
 }
